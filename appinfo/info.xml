@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+    <id>shareimporter</id>
+    <name>ShareImporter</name>
+    <description>Import Shares in Nextcloud app</description>
+    <licence>AGPL</licence>
+    <author>(undisclosed)</author>
+    <version>1.0.1</version>
+    <namespace>ShareImporter</namespace>
+    <category>tool</category>
+    <dependencies>
+       <nextcloud min-version="21" max-version="23" />
+    </dependencies>
+</info>
