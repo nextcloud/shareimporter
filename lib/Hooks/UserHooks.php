@@ -172,7 +172,7 @@ class UserHooks {
 		$url = $this->config->getSystemValueString('share_importer_webservice_url', '');
 		$api_key = $this->config->getSystemValueString('share_importer_webservice_api_key', '');
 
-		if (empty($url) || empty ($api_key)) {
+		if (empty($url) || empty($api_key)) {
 			$this->logger->error('can not connect to share importer webservice: url or api_key are not set', ['app' => Application::APPID]);
 			return false;
 		}
@@ -198,7 +198,6 @@ class UserHooks {
 				$connect_params
 			)->getBody();
 			return $raw_response;
-
 		} catch (Exception $e) {
 			$this->logger->error('can not connect to share importer webservice: {message}',
 				[
