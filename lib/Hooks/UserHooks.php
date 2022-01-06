@@ -93,27 +93,52 @@ class UserHooks {
 				$configObj = $this->createMountConfig($user, (string)$userShare->mountpoint, (string)$userShare->host, (string)$userShare->share, (string)$userShare->domain);
 				try {
 					$newStorageConfig = $this->globalStorageService->addStorage($configObj);
-					$this->logger->info('addStorage ' . json_encode($newStorageConfig), ['app' => Application::APPID]);
+					$this->logger->info('addStorage {config}',
+						[
+							'app' => Application::APPID,
+							'config' => $newStorageConfig
+						]
+					);
 				} catch (Exception $e) {
-					$this->logger->error('addStorage failed: ' . $e->getMessage(), ['app' => Application::APPID]);
+					$this->logger->error('addStorage failed: {message}',
+						[
+							'app' => Application::APPID,
+							'message' => $e->getMessage()
+						]
+					);
 				}
 			}
 		}
 
-		$this->logger->info('remain' . json_encode($existingUserMountsRemain), ['app' => Application::APPID]);
+		$this->logger->info('remain {mounts}',
+			[
+				'app' => Application::APPID,
+				'mounts' => $existingUserMountsRemain,
+			]
+		);
 
 		foreach ($existingUserMounts as $existingUserMount) {
 			if (!in_array($existingUserMount->getId(), $existingUserMountsRemain)) {
 				$id = $existingUserMount->getId();
 				try {
 					$this->globalStorageService->removeStorage($id);
-					$this->logger->info('removeStorage ' . $id . json_encode($existingUserMount), ['app' => Application::APPID]);
+					$this->logger->info('removeStorage {id} {mount}',
+						[
+							'app' => Application::APPID,
+							'id' => $id,
+							'mount' => $existingUserMount
+						]
+					);
 				} catch (Exception $e) {
-					$this->logger->error('removeStorage failed: ' . $e->getMessage(), ['app' => Application::APPID]);
+					$this->logger->error('removeStorage failed: {message}',
+						[
+							'app' => Application::APPID,
+							'message' => $e->getMessage(),
+						]
+					);
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -128,7 +153,12 @@ class UserHooks {
 			$obj = json_decode($json);
 			if ($obj === null) {
 				$error_msg = json_last_error_msg();
-				$this->logger->error('can not read share importer webserver json: ' . $error_msg, ['app' => Application::APPID]);
+				$this->logger->error('can not read share importer webserver json: {message}',
+					[
+						'app' => Application::APPID,
+						'message' => $error_msg,
+					]
+				);
 			}
 		}
 
@@ -170,7 +200,12 @@ class UserHooks {
 			return $raw_response;
 
 		} catch (Exception $e) {
-			$this->logger->error('can not connect to share importer webservice: ' . $e->getMessage(), ['app' => Application::APPID]);
+			$this->logger->error('can not connect to share importer webservice: {message}',
+				[
+					'app' => Application::APPID,
+					'message' => $e->getMessage()
+				]
+			);
 			return null;
 		}
 	}
