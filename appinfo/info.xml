@@ -1,14 +1,19 @@
 <?xml version="1.0"?>
-<info>
-    <id>shareimporter</id>
-    <name>ShareImporter</name>
-    <description>Import Shares in Nextcloud app</description>
-    <licence>AGPL</licence>
-    <author>(undisclosed)</author>
-    <version>1.0.1</version>
-    <namespace>ShareImporter</namespace>
-    <category>tool</category>
-    <dependencies>
-       <nextcloud min-version="21" max-version="24" />
-    </dependencies>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>shareimporter</id>
+	<name>ShareImporter</name>
+	<summary>Import Shares in Nextcloud app</summary>
+	<description>Import Shares in Nextcloud app</description>
+	<version>1.0.1</version>
+	<licence>agpl</licence>
+	<author>(undisclosed)</author>
+	<namespace>ShareImporter</namespace>
+	<category>tools</category>
+	<website>https://github.com/nextcloud/shareimporter</website>
+	<bugs>https://github.com/nextcloud/shareimporter/issues</bugs>
+	<repository>https://github.com/nextcloud/shareimporter.git</repository>
+	<dependencies>
+		<nextcloud min-version="21" max-version="24"/>
+	</dependencies>
 </info>
