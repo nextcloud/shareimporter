@@ -1,0 +1,10 @@
+.idea
+*.iml
+/vendor/
+/build/
+node_modules/
+/.php-cs-fixer.cache
+js/*hot-update.*
+
+# ignore composer.lock as long as it has dev deps only
+composer.lock
