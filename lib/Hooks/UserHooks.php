@@ -10,6 +10,7 @@ use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\ShareImporter\AppInfo\Application;
+use OCP\Files\Cache\IWatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
@@ -261,6 +262,7 @@ class UserHooks {
 		$mount->setBackendOptions($backendOptions);
 		$mount->setApplicableUsers([$user->getUID()]);
 		$mount->setApplicableGroups([]);
+		$mount->setMountOptions([ "filesystem_check_changes" => IWatcher::CHECK_ONCE ]);
 		return $mount;
 	}
 
