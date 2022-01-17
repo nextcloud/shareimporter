@@ -10,6 +10,7 @@ use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\ShareImporter\AppInfo\Application;
+use OCP\Files\Cache\IWatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
@@ -247,10 +248,11 @@ class UserHooks {
 	 * @see: https://github.com/owncloud/core/blob/master/apps/files_external/lib/Command/Import.php
 	 */
 	private function createMountConfig(IUser $user, string $mountpoint, string $host, string $share, string $domain): StorageConfig {
+		$authMech = $this->config->getSystemValue('share_importer_auth_mech', 'password::sessioncredentials');
 		$mount = new StorageConfig();
 		$mount->setMountPoint($mountpoint);
 		$mount->setBackend($this->getBackendByClass(SMB::class));
-		$authBackend = $this->backendService->getAuthMechanism('password::sessioncredentials');
+		$authBackend = $this->backendService->getAuthMechanism($authMech);
 		$mount->setAuthMechanism($authBackend);
 		$backendOptions = [
 			'host' => $host,
@@ -261,6 +263,7 @@ class UserHooks {
 		$mount->setBackendOptions($backendOptions);
 		$mount->setApplicableUsers([$user->getUID()]);
 		$mount->setApplicableGroups([]);
+		$mount->setMountOptions([ "filesystem_check_changes" => IWatcher::CHECK_ONCE ]);
 		return $mount;
 	}
 
