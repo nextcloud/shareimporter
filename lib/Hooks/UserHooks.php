@@ -248,10 +248,11 @@ class UserHooks {
 	 * @see: https://github.com/owncloud/core/blob/master/apps/files_external/lib/Command/Import.php
 	 */
 	private function createMountConfig(IUser $user, string $mountpoint, string $host, string $share, string $domain): StorageConfig {
+		$authMech = $this->config->getSystemValue('share_importer_auth_mech', 'password::sessioncredentials');
 		$mount = new StorageConfig();
 		$mount->setMountPoint($mountpoint);
 		$mount->setBackend($this->getBackendByClass(SMB::class));
-		$authBackend = $this->backendService->getAuthMechanism('password::sessioncredentials');
+		$authBackend = $this->backendService->getAuthMechanism($authMech);
 		$mount->setAuthMechanism($authBackend);
 		$backendOptions = [
 			'host' => $host,
