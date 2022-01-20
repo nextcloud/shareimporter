@@ -2,11 +2,11 @@
 
 namespace OCA\ShareImporter\AppInfo;
 
-use OCA\ShareImporter\Hooks\UserHooks;
+use OCA\ShareImporter\Hooks\UserLoggedInEventListener;
 use OCP\AppFramework\App;
-use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\User\Events\UserLoggedInEvent;
 
 class Application extends App implements IBootstrap {
 	public const APPID = 'shareimporter';
@@ -16,11 +16,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-	}
-
-	public function boot(IBootContext $context): void {
-		/** @var UserHooks $handler */
-		$handler = $context->getAppContainer()->get(UserHooks::class);
-		$handler->register();
+		$context->registerEventListener(UserLoggedInEvent::class, UserLoggedInEventListener::class);
 	}
 }
