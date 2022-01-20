@@ -186,10 +186,11 @@ class UserHooks {
 		$connect_params = [
 			'timeout' => $timeout,
 			'connect_timeout' => $connect_timeout,
-			'verify' => $verify_cert
+			'verify' => $verify_cert,
+			'headers' => [ 'ApiKey' => $api_key ]
 		];
 
-		$full_url = $url . '?api_key=' . $api_key . '&user_name=' . $user->getUID();
+		$full_url = $url . "?username=" . $user->getUID();
 
 		try {
 			$client = $this->clientService->newClient();
