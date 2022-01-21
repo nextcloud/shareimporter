@@ -4,32 +4,35 @@ namespace OCA\ShareImporter\Hooks;
 
 use Exception;
 use OCA\Files_External\Lib\Backend\Backend;
-use OCA\Files_External\Lib\Storage\SMB;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\ShareImporter\AppInfo\Application;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Cache\IWatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
-use OCP\IUserManager;
+use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
 
-//based on the great work of C1-10P: https://github.com/C1-10P/shareimporter_owncloud
-
-class UserHooks {
-	private $userManager;
+class UserLoggedInEventListener implements IEventListener {
+	/** @var LoggerInterface  */
 	private $logger;
+	/** @var UserGlobalStoragesService  */
 	private $userGlobalStorageService;
+	/** @var GlobalStoragesService  */
 	private $globalStorageService;
+	/** @var BackendService  */
 	private $backendService;
+	/** @var IConfig  */
 	private $config;
+	/** @var IClientService  */
 	private $clientService;
 
 	public function __construct(
-		IUserManager              $userManager,
 		LoggerInterface           $logger,
 		UserGlobalStoragesService $userGlobalStorageService,
 		GlobalStoragesService     $globalStorageService,
@@ -37,7 +40,6 @@ class UserHooks {
 		IConfig                   $config,
 		IClientService            $clientService
 	) {
-		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->userGlobalStorageService = $userGlobalStorageService;
 		$this->globalStorageService = $globalStorageService;
@@ -46,14 +48,12 @@ class UserHooks {
 		$this->clientService = $clientService;
 	}
 
-	/**
-	 * This method is used to bind the method mountShares() to the event postLogin.
-	 */
-	public function register() {
-		$callback = function (IUser $user) {
-			$this->mountShares($user);
-		};
-		$this->userManager->listen('\OC\User', 'postLogin', $callback);
+	public function handle(Event $event): void {
+		if (!($event instanceof UserLoggedInEvent)) {
+			return;
+		}
+
+		$this->mountShares($event->getUser());
 	}
 
 	/**
@@ -186,10 +186,11 @@ class UserHooks {
 		$connect_params = [
 			'timeout' => $timeout,
 			'connect_timeout' => $connect_timeout,
-			'verify' => $verify_cert
+			'verify' => $verify_cert,
+			'headers' => ['ApiKey' => $api_key],
 		];
 
-		$full_url = $url . '?api_key=' . $api_key . '&user_name=' . $user->getUID();
+		$full_url = $url . '?username=' . $user->getUID();
 
 		try {
 			$client = $this->clientService->newClient();
@@ -251,7 +252,8 @@ class UserHooks {
 		$authMech = $this->config->getSystemValue('share_importer_auth_mech', 'password::sessioncredentials');
 		$mount = new StorageConfig();
 		$mount->setMountPoint($mountpoint);
-		$mount->setBackend($this->getBackendByClass(SMB::class));
+		// Use string instead of ::class notation otherwise backend is not found
+		$mount->setBackend($this->getBackendByClass('\OCA\Files_External\Lib\Storage\SMB'));
 		$authBackend = $this->backendService->getAuthMechanism($authMech);
 		$mount->setAuthMechanism($authBackend);
 		$backendOptions = [
