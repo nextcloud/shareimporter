@@ -261,6 +261,7 @@ class UserLoggedInEventListener implements IEventListener {
 			'share' => $share,
 			'root' => '',
 			'domain' => $domain,
+			'default_realm' => $domain,
 		];
 		$mount->setBackendOptions($backendOptions);
 		$mount->setApplicableUsers([$user->getUID()]);
