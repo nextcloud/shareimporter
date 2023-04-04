@@ -195,11 +195,11 @@ class UserLoggedInEventListener implements IEventListener {
 		try {
 			$client = $this->clientService->newClient();
 
-			$raw_response = $client->get(
+			$rawResponse = $client->get(
 				$full_url,
 				$connect_params
 			)->getBody();
-			return $raw_response;
+			return $rawResponse;
 		} catch (Exception $e) {
 			$this->logger->error('can not connect to share importer webservice: {message}',
 				[
