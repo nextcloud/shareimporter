@@ -4,7 +4,9 @@
 	"license": "AGPLv3",
 	"require-dev": {
 		"nextcloud/coding-standard": "^1.0",
-		"php-parallel-lint/php-parallel-lint": "^1.3"
+		"php-parallel-lint/php-parallel-lint": "^1.3",
+		"vimeo/psalm": "^4.30",
+		"nextcloud/ocp": "v23.0.9"
 	},
 	"config": {
 		"autoloader-suffix": "ShareImporter",
@@ -21,6 +23,10 @@
 	"scripts": {
 		"lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
-		"cs:fix": "php-cs-fixer fix"
+		"cs:fix": "php-cs-fixer fix",
+		"psalm": "psalm",
+		"psalm:clear": "psalm --clear-cache && psalm --clear-global-cache",
+		"psalm:update-baseline": "psalm --update-baseline",
+		"psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType"
 	}
 }
