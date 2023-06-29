@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+
+namespace OCA\Files_External\Lib {
+	class StorageConfig {
+		public function getApplicableUsers(): string[];
+		public function getId(): int;
+		public function getBackendOptions(): array;
+		public function getMountPoint(): string;
+		public function setMountPoint(string $mountPoint): void;
+		public function setBackend(\OCA\Files_External\Lib\Backend\Backend $backend): void;
+		public function setAuthMechanism(\OCA\Files_External\Lib\Auth\AuthMechanism $authMechanism): void;
+		public function setBackendOptions(array $backendOptions): void;
+		public function setApplicableUsers(?array $applicableUsers): void;
+		public function setApplicableGroups(?array $applicableGroups): void;
+		public function setMountOptions(array $mountOptions): void;
+	}
+}
+
+namespace OCA\Files_External\Lib\Auth {
+	class AuthMechanism {}
+}
+
+namespace OCA\Files_External\Lib\Backend {
+	class Backend {
+		public function getStorageClass(): string;
+	}
+}
+
+namespace OCA\Files_External\Service {
+	class BackendService {
+		public function getAuthMechanism($identifier): ?\OCA\Files_External\Lib\Auth\AuthMechanism;
+		public function getBackends(): \OCA\Files_External\Lib\Backend\Backend[];
+	}
+
+	class GlobalStoragesService {
+		public function addStorage(\OCA\Files_External\Lib\StorageConfig $newStorage): \OCA\Files_External\Lib\StorageConfig;
+		public function removeStorage($id): void;
+	}
+
+	class UserGlobalStoragesService {
+		public function getAllStorages(): \OCA\Files_External\Lib\StorageConfig[];
+	}
+}

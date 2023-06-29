@@ -175,7 +175,7 @@ class UserLoggedInEventListener implements IEventListener {
 
 		if (empty($url) || empty($api_key)) {
 			$this->logger->error('can not connect to share importer webservice: url or api_key are not set', ['app' => Application::APPID]);
-			return false;
+			return null;
 		}
 
 		//TODO: check config values
@@ -199,7 +199,7 @@ class UserLoggedInEventListener implements IEventListener {
 				$full_url,
 				$connect_params
 			)->getBody();
-			return $rawResponse;
+			return (string)$rawResponse;
 		} catch (Exception $e) {
 			$this->logger->error('can not connect to share importer webservice: {message}',
 				[
