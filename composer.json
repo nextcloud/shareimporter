@@ -4,9 +4,7 @@
 	"license": "AGPLv3",
 	"require-dev": {
 		"nextcloud/coding-standard": "^1.0",
-		"php-parallel-lint/php-parallel-lint": "^1.3",
-		"vimeo/psalm": "^4.30",
-		"nextcloud/ocp": "v23.0.9"
+		"vimeo/psalm": "^4.30"
 	},
 	"config": {
 		"autoloader-suffix": "ShareImporter",
