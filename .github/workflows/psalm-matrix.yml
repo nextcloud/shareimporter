@@ -38,7 +38,7 @@ jobs:
         run: composer i
 
       - name: Install dependencies
-        run: composer require --dev vimeo/psalm:^4.30 nextcloud/ocp:${{ matrix.ocp-version }} --ignore-platform-reqs --with-dependencies
+        run: composer require --dev vimeo/psalm:^5 nextcloud/ocp:${{ matrix.ocp-version }} --ignore-platform-reqs --with-dependencies
 
       - name: Run coding standards check
         run: composer run psalm

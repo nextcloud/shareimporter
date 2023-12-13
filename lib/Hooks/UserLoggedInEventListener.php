@@ -18,6 +18,7 @@ use OCP\IUser;
 use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<Event|UserLoggedInEvent> */
 class UserLoggedInEventListener implements IEventListener {
 	/** @var LoggerInterface  */
 	private $logger;
