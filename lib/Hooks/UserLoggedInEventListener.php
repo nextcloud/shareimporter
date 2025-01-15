@@ -18,7 +18,7 @@ use OCP\IUser;
 use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
 
-/** @template-implements IEventListener<Event|UserLoggedInEvent> */
+/** @template-implements IEventListener<UserLoggedInEvent> */
 class UserLoggedInEventListener implements IEventListener {
 
 	public function __construct(
