@@ -20,33 +20,15 @@ use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<Event|UserLoggedInEvent> */
 class UserLoggedInEventListener implements IEventListener {
-	/** @var LoggerInterface  */
-	private $logger;
-	/** @var UserGlobalStoragesService  */
-	private $userGlobalStorageService;
-	/** @var GlobalStoragesService  */
-	private $globalStorageService;
-	/** @var BackendService  */
-	private $backendService;
-	/** @var IConfig  */
-	private $config;
-	/** @var IClientService  */
-	private $clientService;
 
 	public function __construct(
-		LoggerInterface           $logger,
-		UserGlobalStoragesService $userGlobalStorageService,
-		GlobalStoragesService     $globalStorageService,
-		BackendService            $backendService,
-		IConfig                   $config,
-		IClientService            $clientService
+		private LoggerInterface           $logger,
+		private UserGlobalStoragesService $userGlobalStorageService,
+		private GlobalStoragesService     $globalStorageService,
+		private BackendService            $backendService,
+		private IConfig                   $config,
+		private IClientService            $clientService
 	) {
-		$this->logger = $logger;
-		$this->userGlobalStorageService = $userGlobalStorageService;
-		$this->globalStorageService = $globalStorageService;
-		$this->backendService = $backendService;
-		$this->config = $config;
-		$this->clientService = $clientService;
 	}
 
 	public function handle(Event $event): void {
