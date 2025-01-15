@@ -1,6 +1,7 @@
 .idea
 *.iml
 /vendor/
+vendor-bin/*/
 /build/
 node_modules/
 /.php-cs-fixer.cache

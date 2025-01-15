@@ -18,35 +18,17 @@ use OCP\IUser;
 use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
 
-/** @template-implements IEventListener<Event|UserLoggedInEvent> */
+/** @template-implements IEventListener<UserLoggedInEvent> */
 class UserLoggedInEventListener implements IEventListener {
-	/** @var LoggerInterface  */
-	private $logger;
-	/** @var UserGlobalStoragesService  */
-	private $userGlobalStorageService;
-	/** @var GlobalStoragesService  */
-	private $globalStorageService;
-	/** @var BackendService  */
-	private $backendService;
-	/** @var IConfig  */
-	private $config;
-	/** @var IClientService  */
-	private $clientService;
 
 	public function __construct(
-		LoggerInterface           $logger,
-		UserGlobalStoragesService $userGlobalStorageService,
-		GlobalStoragesService     $globalStorageService,
-		BackendService            $backendService,
-		IConfig                   $config,
-		IClientService            $clientService
+		private LoggerInterface $logger,
+		private UserGlobalStoragesService $userGlobalStorageService,
+		private GlobalStoragesService $globalStorageService,
+		private BackendService $backendService,
+		private IConfig $config,
+		private IClientService $clientService,
 	) {
-		$this->logger = $logger;
-		$this->userGlobalStorageService = $userGlobalStorageService;
-		$this->globalStorageService = $globalStorageService;
-		$this->backendService = $backendService;
-		$this->config = $config;
-		$this->clientService = $clientService;
 	}
 
 	public function handle(Event $event): void {
@@ -80,7 +62,7 @@ class UserLoggedInEventListener implements IEventListener {
 		}
 
 		$existingUserMounts = $this->getExistingUserMounts($user);
-		$existingUserMountsRemain = array();
+		$existingUserMountsRemain = [];
 		foreach ($userShares->shares as $userShare) {
 			/** @var object $userShare */
 			$foundExistingMount = false;
@@ -220,7 +202,7 @@ class UserLoggedInEventListener implements IEventListener {
 	 */
 	private function getExistingUserMounts(IUser $user): array {
 		$existingMounts = $this->userGlobalStorageService->getAllStorages();
-		$existingUserMounts = array();
+		$existingUserMounts = [];
 
 		foreach ($existingMounts as $existingMount) {
 			if ($existingMount->getApplicableUsers() == [$user->getUID()]) {
@@ -236,7 +218,7 @@ class UserLoggedInEventListener implements IEventListener {
 	 */
 	private function isDuplicate(object $userShare, StorageConfig $existingMount): bool {
 		$backend_options = $existingMount->getBackendOptions();
-		$tmp = "/" . $userShare->mountpoint;
+		$tmp = '/' . $userShare->mountpoint;
 
 		return $tmp === $existingMount->getMountPoint()
 			&& $userShare->host === $backend_options['host']
@@ -267,7 +249,7 @@ class UserLoggedInEventListener implements IEventListener {
 		$mount->setBackendOptions($backendOptions);
 		$mount->setApplicableUsers([$user->getUID()]);
 		$mount->setApplicableGroups([]);
-		$mount->setMountOptions([ "filesystem_check_changes" => IWatcher::CHECK_ONCE ]);
+		$mount->setMountOptions([ 'filesystem_check_changes' => IWatcher::CHECK_ONCE ]);
 		return $mount;
 	}
 
