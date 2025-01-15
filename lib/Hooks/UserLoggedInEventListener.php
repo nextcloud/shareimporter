@@ -22,12 +22,12 @@ use Psr\Log\LoggerInterface;
 class UserLoggedInEventListener implements IEventListener {
 
 	public function __construct(
-		private LoggerInterface           $logger,
+		private LoggerInterface $logger,
 		private UserGlobalStoragesService $userGlobalStorageService,
-		private GlobalStoragesService     $globalStorageService,
-		private BackendService            $backendService,
-		private IConfig                   $config,
-		private IClientService            $clientService
+		private GlobalStoragesService $globalStorageService,
+		private BackendService $backendService,
+		private IConfig $config,
+		private IClientService $clientService,
 	) {
 	}
 
@@ -62,7 +62,7 @@ class UserLoggedInEventListener implements IEventListener {
 		}
 
 		$existingUserMounts = $this->getExistingUserMounts($user);
-		$existingUserMountsRemain = array();
+		$existingUserMountsRemain = [];
 		foreach ($userShares->shares as $userShare) {
 			/** @var object $userShare */
 			$foundExistingMount = false;
@@ -202,7 +202,7 @@ class UserLoggedInEventListener implements IEventListener {
 	 */
 	private function getExistingUserMounts(IUser $user): array {
 		$existingMounts = $this->userGlobalStorageService->getAllStorages();
-		$existingUserMounts = array();
+		$existingUserMounts = [];
 
 		foreach ($existingMounts as $existingMount) {
 			if ($existingMount->getApplicableUsers() == [$user->getUID()]) {
@@ -218,7 +218,7 @@ class UserLoggedInEventListener implements IEventListener {
 	 */
 	private function isDuplicate(object $userShare, StorageConfig $existingMount): bool {
 		$backend_options = $existingMount->getBackendOptions();
-		$tmp = "/" . $userShare->mountpoint;
+		$tmp = '/' . $userShare->mountpoint;
 
 		return $tmp === $existingMount->getMountPoint()
 			&& $userShare->host === $backend_options['host']
@@ -249,7 +249,7 @@ class UserLoggedInEventListener implements IEventListener {
 		$mount->setBackendOptions($backendOptions);
 		$mount->setApplicableUsers([$user->getUID()]);
 		$mount->setApplicableGroups([]);
-		$mount->setMountOptions([ "filesystem_check_changes" => IWatcher::CHECK_ONCE ]);
+		$mount->setMountOptions([ 'filesystem_check_changes' => IWatcher::CHECK_ONCE ]);
 		return $mount;
 	}
 

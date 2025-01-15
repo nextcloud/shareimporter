@@ -4,8 +4,8 @@ namespace OCA\ShareImporter\AppInfo;
 
 use OCA\ShareImporter\Hooks\UserLoggedInEventListener;
 use OCP\AppFramework\App;
-use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\User\Events\UserLoggedInEvent;
 
