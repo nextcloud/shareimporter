@@ -1,4 +1,10 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Share-Importer
+
+[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/shareimporter)](https://api.reuse.software/info/github.com/nextcloud/shareimporter)
 
 *Share-Importer* is a Nextcloud app which automatically mounts SMB shares for a user at login time. Information about which shares are assigned to a user is provided by an external web service. This web services is not part of the app.
 

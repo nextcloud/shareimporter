@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Share-Importer
 
 Der Share-Importer ist eine Nextcloud-App, die automatisiert SMB-Shares eines Benutzers einbindet. Die Shares, die einem Benutzer zugeordnet sind, werden durch einen externen Webservice geliefert, der nicht Bestandteil der App ist.
