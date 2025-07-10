@@ -28,7 +28,7 @@ Configuration is done in the main Nextcloud configuration file *config.php*.
 | share_importer_webservice_verify_certificate | *true* if the TLS certificate of the web service should be verified, otherwise *false* | Boolean | *true* |
 | share_importer_webservice_timeout | Timeout in seconds for a reply of the web service. | Integer | 5 |
 | share_importer_webservice_connect_timeout | Timeout in seconds for the connection setup to the web service. | Integer | 5 |
-| share_importer_auth_mech | Name of the Nextcloud-internal authentication mechanism for the SMB share. The default value "*password:sessioncredentials*" means that the saved login credentials are being used. | String | *password:sessioncredentials* |
+| share_importer_auth_mech | Name of the Nextcloud-internal authentication mechanism for the SMB share. The default value "*password::sessioncredentials*" means that the saved login credentials are being used. | String | *password::sessioncredentials* |
 
 ## Webservice
 
