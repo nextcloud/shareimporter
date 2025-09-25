@@ -22,17 +22,18 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /** @template-implements IEventListener<UserLoggedInEvent> */
 class UserLoggedInEventListener implements IEventListener {
 
 	public function __construct(
-		private LoggerInterface $logger,
-		private UserGlobalStoragesService $userGlobalStorageService,
-		private GlobalStoragesService $globalStorageService,
-		private BackendService $backendService,
-		private IConfig $config,
-		private IClientService $clientService,
+		private readonly LoggerInterface $logger,
+		private readonly UserGlobalStoragesService $userGlobalStorageService,
+		private readonly GlobalStoragesService $globalStorageService,
+		private readonly BackendService $backendService,
+		private readonly IConfig $config,
+		private readonly IClientService $clientService,
 	) {
 	}
 
@@ -79,8 +80,8 @@ class UserLoggedInEventListener implements IEventListener {
 				}
 			}
 			if (!$foundExistingMount) {
-				$configObj = $this->createMountConfig($user, (string)$userShare->mountpoint, (string)$userShare->host, (string)$userShare->share, (string)$userShare->domain);
 				try {
+					$configObj = $this->createMountConfig($user, (string)$userShare->mountpoint, (string)$userShare->host, (string)$userShare->share, (string)$userShare->domain);
 					$newStorageConfig = $this->globalStorageService->addStorage($configObj);
 					$this->logger->info('addStorage {config}',
 						[
@@ -210,7 +211,7 @@ class UserLoggedInEventListener implements IEventListener {
 		$existingUserMounts = [];
 
 		foreach ($existingMounts as $existingMount) {
-			if ($existingMount->getApplicableUsers() == [$user->getUID()]) {
+			if ($existingMount->getApplicableUsers() === [$user->getUID()]) {
 				$existingUserMounts[] = $existingMount;
 			}
 		}
@@ -243,6 +244,9 @@ class UserLoggedInEventListener implements IEventListener {
 		// Use string instead of ::class notation otherwise backend is not found
 		$mount->setBackend($this->getBackendByClass('\OCA\Files_External\Lib\Storage\SMB'));
 		$authBackend = $this->backendService->getAuthMechanism($authMech);
+		if ($authBackend === null) {
+			throw new RuntimeException('AuthMech is not configured correctly');
+		}
 		$mount->setAuthMechanism($authBackend);
 		$backendOptions = [
 			'host' => $host,
