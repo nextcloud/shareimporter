@@ -26,3 +26,4 @@ run-eslint.sh
 webpack.*
 img/screenshots
 .php-cs-fixer.dist.php
+psalm.xml
