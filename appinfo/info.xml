@@ -9,7 +9,7 @@
 	<name>ShareImporter</name>
 	<summary>Import Shares in Nextcloud app</summary>
 	<description>Import Shares in Nextcloud app</description>
-	<version>4.0.0</version>
+	<version>4.1.0</version>
 	<licence>agpl</licence>
 	<author>(undisclosed)</author>
 	<namespace>ShareImporter</namespace>
