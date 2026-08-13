@@ -18,6 +18,6 @@
 	<bugs>https://github.com/nextcloud/shareimporter/issues</bugs>
 	<repository>https://github.com/nextcloud/shareimporter.git</repository>
 	<dependencies>
-		<nextcloud min-version="32" max-version="34"/>
+		<nextcloud min-version="32" max-version="35"/>
 	</dependencies>
 </info>
