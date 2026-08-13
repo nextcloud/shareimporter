@@ -21,10 +21,12 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APPID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(UserLoggedInEvent::class, UserLoggedInEventListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }
